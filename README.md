@@ -2,7 +2,7 @@
 This project follows a clean architecture having the four basic layers:
 UI, Application, Domain and Infrastructure, each of them is isolated from one another and follows Single Responsibility Principle.
 
-## Key features of arcitecture :
+## Key features of architecture :
 Implementation of Dependency Injection (cardService receives props via constructor)
 Representattionn of LisKov substitution principle
 Data source can be changed without much change to architecture.
