@@ -50,7 +50,6 @@ export default function CardTransactionsPage() {
         <TransactionList
           transactions={transactions}
           card={selectedCard}
-          hasFilter={!!filterAmount}
         />
 
       </div>
