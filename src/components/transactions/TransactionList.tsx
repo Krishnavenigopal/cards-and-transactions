@@ -10,7 +10,6 @@ import { TransactionRow }  from "./TransactionRow";
 interface Props {
   transactions: Transactions[];
   card:         Card | null;
-  hasFilter:    boolean;
 }
  
 export function TransactionList({ transactions, card }: Props) {
@@ -78,14 +77,6 @@ export function TransactionList({ transactions, card }: Props) {
  
       {/* Content */}
       {transactions.length === 0 ? (
-        // <EmptyState
-        //   icon={hasFilter && card ? "🔍" : "💳"}
-        //   message={
-        //     hasFilter && card
-        //       ? "No transactions match this filter"
-        //       : "Select a card to view transactions"
-        //   }
-        // />
         <div>Empty</div>
       ) : (
         <>

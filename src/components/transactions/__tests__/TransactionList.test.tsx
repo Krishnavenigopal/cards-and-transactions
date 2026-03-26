@@ -12,92 +12,92 @@ const transactions: Transactions[] = [
 
 describe("TransactionList — no card selected", () => {
   it("renders the transaction panel", () => {
-    render(<TransactionList transactions={[]} card={null} hasFilter={false} />);
+    render(<TransactionList transactions={[]} card={null} />);
     expect(screen.getByTestId("transaction-panel")).toBeInTheDocument();
   });
 
   it("shows Empty when no card is selected", () => {
-    render(<TransactionList transactions={[]} card={null} hasFilter={false} />);
+    render(<TransactionList transactions={[]} card={null} />);
     expect(screen.getByText("Empty")).toBeInTheDocument();
   });
 
   it("does not render an h2 heading", () => {
-    render(<TransactionList transactions={[]} card={null} hasFilter={false} />);
+    render(<TransactionList transactions={[]} card={null} />);
     expect(screen.queryByRole("heading", { level: 2 })).not.toBeInTheDocument();
   });
 
   it("section has generic aria-label when no card", () => {
-    render(<TransactionList transactions={[]} card={null} hasFilter={false} />);
+    render(<TransactionList transactions={[]} card={null} />);
     expect(screen.getByRole("region", { name: "Transactions" })).toBeInTheDocument();
   });
 });
 
 describe("TransactionList — card selected with transactions", () => {
   it("renders a named section landmark", () => {
-    render(<TransactionList transactions={transactions} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={transactions} card={card} />);
     expect(
       screen.getByRole("region", { name: /Private Card transactions/i })
     ).toBeInTheDocument();
   });
 
   it("renders an h2 heading with the card description", () => {
-    render(<TransactionList transactions={transactions} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={transactions} card={card} />);
     expect(
       screen.getByRole("heading", { level: 2, name: "Private Card" })
     ).toBeInTheDocument();
   });
 
   it("renders a list of transactions", () => {
-    render(<TransactionList transactions={transactions} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={transactions} card={card}  />);
     expect(screen.getByRole("list")).toBeInTheDocument();
   });
 
   it("renders one row per transaction", () => {
-    render(<TransactionList transactions={transactions} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={transactions} card={card}  />);
     expect(screen.getAllByTestId("transaction-row")).toHaveLength(3);
   });
 
   it("shows correct transaction count — plural", () => {
-    render(<TransactionList transactions={transactions} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={transactions} card={card} />);
     expect(screen.getByText("3 transactions")).toBeInTheDocument();
   });
 
   it("uses singular form when count is 1", () => {
-    render(<TransactionList transactions={[transactions[0]]} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={[transactions[0]]} card={card}  />);
     expect(screen.getByText("1 transaction")).toBeInTheDocument();
   });
 
   it("renders all transaction descriptions", () => {
-    render(<TransactionList transactions={transactions} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={transactions} card={card}  />);
     expect(screen.getByText("Food")).toBeInTheDocument();
     expect(screen.getByText("Refund")).toBeInTheDocument();
     expect(screen.getByText("Travel")).toBeInTheDocument();
   });
 
   it("count has role=status for live announcement", () => {
-    render(<TransactionList transactions={transactions} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={transactions} card={card}  />);
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 
   it("does not show Empty when transactions are present", () => {
-    render(<TransactionList transactions={transactions} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={transactions} card={card} />);
     expect(screen.queryByText("Empty")).not.toBeInTheDocument();
   });
 });
 
 describe("TransactionList — card selected, no transactions", () => {
   it("shows Empty when card is selected but no transactions", () => {
-    render(<TransactionList transactions={[]} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={[]} card={card} />);
     expect(screen.getByText("Empty")).toBeInTheDocument();
   });
 
   it("still renders the h2 heading", () => {
-    render(<TransactionList transactions={[]} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={[]} card={card} />);
     expect(screen.getByRole("heading", { level: 2 })).toBeInTheDocument();
   });
 
   it("shows 0 transactions in the count", () => {
-    render(<TransactionList transactions={[]} card={card} hasFilter={false} />);
+    render(<TransactionList transactions={[]} card={card}  />);
     expect(screen.getByText("0 transactions")).toBeInTheDocument();
   });
 });
