@@ -1,22 +1,46 @@
+import { useState }  from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { generateCardTheme } from "../../utilities/cardTheme";
+import Pagination from "@mui/material/Pagination";
 import type { Transactions, Card } from "../../domain/models";
+import { generateCardTheme } from "../../utilities/cardTheme";
 import { TransactionRow }  from "./TransactionRow";
-// import { EmptyState }             from "../common/EmptyState";
- 
+
+const PAGE_SIZE = 10;
+
 interface Props {
   transactions: Transactions[];
   card:         Card | null;
 }
- 
+
 export function TransactionList({ transactions, card }: Props) {
+  const [page, setPage] = useState(1);
+
   const headingId = "transaction-heading";
   const countId   = "transaction-count";
- 
-  const theme = card ? generateCardTheme(card.id) : null;
+
+  const theme      = card ? generateCardTheme(card.id) : null;
+  const totalPages = Math.ceil(transactions.length / PAGE_SIZE);
+
+  // Slice transactions for the current page
+  const paginated = transactions.slice(
+    (page - 1) * PAGE_SIZE,
+    page * PAGE_SIZE
+  );
+
+  // Reset to page 1 whenever transactions change (card switch or filter)
+  // Using a key on the component in the page handles this automatically,
+  // but we also guard here for safety
+  function handlePageChange(_: React.ChangeEvent<unknown>, value: number) {
+    setPage(value);
+    // Scroll transaction panel into view smoothly
+    document
+      .querySelector("[data-testid='transaction-panel']")
+      ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
   return (
     <Box
       component="section"
@@ -31,7 +55,6 @@ export function TransactionList({ transactions, card }: Props) {
         px:           card ? 2.5 : 0,
         pt:           card ? 0.5 : 0,
         pb:           card ? 1   : 0,
-        // Smooth colour transition when switching cards
         transition:  "background-color 0.3s ease, border-color 0.3s ease",
       }}
     >
@@ -45,22 +68,29 @@ export function TransactionList({ transactions, card }: Props) {
             pt:           2,
             pb:           0.5,
             mb:           0.5,
-            borderBottom: "1px solid ${theme.panelBorder}",
+            borderBottom: `1px solid ${theme.panelBorder}`,
           }}
         >
+          <Box
+            aria-hidden="true"
+            sx={{
+              width:        10,
+              height:       10,
+              borderRadius: "50%",
+              bgcolor:      theme.background,
+              flexShrink:   0,
+            }}
+          />
+
           <Typography
             id={headingId}
             component="h2"
             variant="overline"
-            sx={{ lineHeight: 1, letterSpacing: 1.2, color: theme.textColor, }}
+            sx={{ lineHeight: 1, letterSpacing: 1.2, color: theme.textColor }}
           >
             {card.description}
           </Typography>
- 
-          {/*
-            role="status" + aria-live="polite" — announced when filter changes.
-            "3 transactions" or "0 transactions" is read without stealing focus.
-          */}
+
           <Typography
             id={countId}
             role="status"
@@ -74,29 +104,47 @@ export function TransactionList({ transactions, card }: Props) {
           </Typography>
         </Box>
       )}
- 
-      {/* Content */}
+
       {transactions.length === 0 ? (
         <div>Empty</div>
       ) : (
         <>
           <Divider sx={{ mb: 0.5, borderColor: theme?.panelBorder }} />
-          {/*
-            List → <ul>
-            aria-labelledby  links to the h2: "Private Card"
-            aria-describedby links to the count: "3 transactions"
-            Together AT reads: "Private Card, list, 3 transactions"
-          */}
           <List
             dense
             disablePadding
             aria-labelledby={card ? headingId : undefined}
             aria-describedby={card ? countId : undefined}
           >
-            {transactions.map((tx) => (
-              <TransactionRow key={tx.id} transaction={tx} accentColor={theme?.textColor} />
+            {paginated.map((tx) => (
+              <TransactionRow
+                key={tx.id}
+                transaction={tx}
+                accentColor={theme?.textColor}
+              />
             ))}
           </List>
+
+          {/* Pagination — only shown when there are more than PAGE_SIZE transactions */}
+          {totalPages > 1 && (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              pt={1.5}
+              pb={0.5}
+            >
+              <Pagination
+                data-testid="transaction-pagination"
+                count={totalPages}
+                page={page}
+                onChange={handlePageChange}
+                size="small"
+                color="primary"
+                aria-label="Transaction pages"
+              />
+            </Box>
+          )}
         </>
       )}
     </Box>
