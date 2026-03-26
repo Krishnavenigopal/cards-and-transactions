@@ -1,17 +1,17 @@
 export {};
 
 const SEL = {
-  privateCard:      "[aria-label*='Private Card']",
-  businessCard:     "[aria-label*='Business Card']",
-  amountInput:      "#amount-filter",
+  privateCard:  "[aria-label*='Private Card']",
+  businessCard: "[aria-label*='Business Card']",
+  amountInput:  "#amount-filter",
   transactionPanel: "[data-testid='transaction-panel']",
-  transactionRow:   "[data-testid='transaction-row']",
+  transactionRow: "[data-testid='transaction-row']",
 };
 
 describe("Card Transactions Page", () => {
   beforeEach(() => cy.visit("/"));
 
-  // ── Initial load ────────────────────────────────────────────────────────────
+  //Initial load 
 
   describe("Initial load", () => {
     it("renders both payment cards", () => {
@@ -33,7 +33,7 @@ describe("Card Transactions Page", () => {
     });
   });
 
-  // ── Card selection ──────────────────────────────────────────────────────────
+  //Card selection 
 
   describe("Card selection", () => {
     it("marks Private Card as selected on click", () => {
@@ -44,14 +44,12 @@ describe("Card Transactions Page", () => {
 
     it("shows Private Card transactions after selection", () => {
       cy.get(SEL.privateCard).click();
-      // Wait for at least one transaction row to appear, then check descriptions
       cy.get(SEL.transactionRow).should("have.length.at.least", 1);
       cy.get(SEL.transactionRow).first().should("be.visible");
     });
 
     it("shows the card name in the transaction panel header", () => {
       cy.get(SEL.privateCard).click();
-      // MUI overline applies uppercase via CSS — DOM text is still "Private Card"
       cy.get(SEL.transactionPanel)
         .contains("Private Card")
         .should("be.visible");
@@ -84,12 +82,11 @@ describe("Card Transactions Page", () => {
     });
   });
 
-  // ── Amount filter ───────────────────────────────────────────────────────────
+  // Amount filter
 
   describe("Amount filter", () => {
     beforeEach(() => {
       cy.get(SEL.privateCard).click();
-      // Wait for transactions to load before each filter test
       cy.get(SEL.transactionRow).should("have.length.at.least", 1);
     });
 
@@ -102,7 +99,6 @@ describe("Card Transactions Page", () => {
 
     it("keeps transactions at exactly the threshold — >= semantics", () => {
       cy.get(SEL.amountInput).type("43.80");
-      // Food is exactly 43.80 — should still be visible
       cy.contains("Food").should("be.visible");
     });
 
@@ -133,7 +129,7 @@ describe("Card Transactions Page", () => {
     });
   });
 
-  // ── Accessibility ───────────────────────────────────────────────────────────
+  //Accessibility 
 
   describe("Accessibility", () => {
     it("card list has an aria-label", () => {
