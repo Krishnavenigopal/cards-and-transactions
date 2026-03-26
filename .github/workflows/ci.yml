@@ -85,8 +85,13 @@ jobs:
       - name: Run Cypress E2E tests
         uses: cypress-io/github-action@v6
         with:
-          start: npm run preview
+          # Use preview server 
+          start: npm run preview -- --port 4173
           wait-on: "http://localhost:4173"
-          wait-on-timeout: 30
+          # Increase timeout 
+          wait-on-timeout: 60
           browser: chrome
           headed: false
+        env:
+          # Mention the base URL to use
+          CYPRESS_BASE_URL: http://localhost:4173
