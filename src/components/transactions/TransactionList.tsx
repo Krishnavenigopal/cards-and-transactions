@@ -13,7 +13,7 @@ interface Props {
   hasFilter:    boolean;
 }
  
-export function TransactionList({ transactions, card, hasFilter }: Props) {
+export function TransactionList({ transactions, card }: Props) {
   const headingId = "transaction-heading";
   const countId   = "transaction-count";
  
