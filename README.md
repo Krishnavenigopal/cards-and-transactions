@@ -52,9 +52,9 @@ Requires the dev server to be running:
 npm run dev
 
 ### Terminal 2
-npx cypress run       # headless  
+npx cypress run        
 
-npx cypress open      # interactive browser UI
+npx cypress open    
 
 ### Application new additions:  
 
