@@ -3,9 +3,7 @@ import { formatCurrency, filterByMinAmount } from "../helper";
 // formatCurrency
 
 describe("formatCurrency", () => {
-  // Intl.NumberFormat inserts a non-breaking space (\u00a0) between
-  // the number and the € sign — use toMatch(/pattern/) to avoid
-  // hardcoding the exact whitespace character
+  // the number and the € sign — use toMatch(/pattern/) to avoid hardcoding the exact whitespace character
   it("formats integer in German locale by default", () => {
     expect(formatCurrency(100)).toMatch(/100,00/);
     expect(formatCurrency(100)).toMatch(/€/);

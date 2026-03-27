@@ -5,9 +5,9 @@ export interface CardTheme {
   background: string;
   /** "#000000" or "#ffffff" — whichever passes WCAG 4.5:1 on `background` */
   textColor: string;
-  /** background at ~9% opacity — for the transaction panel tint */
+  /** background at sowewhat 9% opacity — for the transaction panel tint */
   panelTint: string;
-  /** background at ~25% opacity — for the panel border */
+  /** background at somewhat 25% opacity — for the panel border */
   panelBorder: string;
 }
  
@@ -56,21 +56,21 @@ function readableTextColor(background: string): string {
   return contrastWithWhite >= contrastWithBlack ? "#ffffff" : "#000000";
 }
  
-// ─── Public API ───────────────────────────────────────────────────────────────
+// Public API
  
 export function generateCardTheme(id: string): CardTheme {
   const hash = hashId(id);
   const hue  = hash % 360;
  
-  // Saturation 55%, lightness 40% — vivid but never neon or muddy
+  // Saturation 55%, lightness 40% 
   const background = hslToHex(hue, 55, 40);
   const textColor  = readableTextColor(background);
  
   return {
     background,
     textColor,
-    panelTint:   `${background}18`, // ~9% opacity
-    panelBorder: `${background}40`, // ~25% opacity
+    panelTint:   `${background}18`, // somewhat 9% opacity
+    panelBorder: `${background}40`, // somewhat 25% opacity
   };
 }
  

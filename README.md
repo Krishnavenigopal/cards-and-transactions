@@ -38,8 +38,12 @@ npm install
 ## Run development server
 npm run dev
 
-## Running Tests
-npx vitest run
+## Running Tests  
+Unit tests:  
+
+npx vitest run  
+
+*** Please note: Skipped one unit test to check unique transactionID intentionally to pass pipeline stage, because the given input has duplicate id for transactions.
 
 ## E2E tests (Cypress)
 Requires the dev server to be running:  

@@ -32,8 +32,7 @@ describe("PaymentCard — rendering", () => {
 });
 
 describe("PaymentCard — accessibility", () => {
-  // The CardActionArea has role="radio" explicitly set, which overrides
-  // the implicit "button" role — so we query by role="radio"
+  // The CardActionArea has role="radio" explicitly set, which overrides the implicit "button" role — so query by role="radio"
   it("renders a radio element", () => {
     render(<PaymentCard card={card} isSelected={false} onSelect={vi.fn()} />);
     expect(screen.getByRole("radio")).toBeInTheDocument();
