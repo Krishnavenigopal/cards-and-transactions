@@ -8,7 +8,7 @@ UI, Application, Domain and Infrastructure, each of them is isolated from one an
 ## Key features of arcitecture :
 Implementation of Dependency Injection (cardService receives props via constructor)  
 
-Representattionn of LisKov substitution principle  
+Representation of LisKov substitution principle  
 
 Data source can be changed without much change to architecture.  
 
@@ -20,7 +20,7 @@ Added unit tests and Cypress end to end test.
 
 Added CI.  
 
-Components are accessible  
+Components are accessible. 
 
 Implemented themed cards  
 
