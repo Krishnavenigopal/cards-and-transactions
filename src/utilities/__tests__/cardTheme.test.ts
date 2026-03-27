@@ -1,4 +1,3 @@
-// src/utils/__tests__/cardTheme.test.ts
 
 import { generateCardTheme } from "../cardTheme";
 
